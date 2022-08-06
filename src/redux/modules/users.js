@@ -1,16 +1,16 @@
-//Action Value
+// src/redux/modules/usersSlice.js
 
-// Action Creator
+import { createSlice } from "@reduxjs/toolkit";
 
-//Initial State
-const initialState = {};
-
-// 리듀서
-const users = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
+const initialState = {
+  todos: [],
 };
 
-export default users;
+export const usersSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {},
+});
+
+export const {} = usersSlice.actions;
+export default usersSlice.reducer;
