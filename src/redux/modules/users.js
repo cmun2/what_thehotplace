@@ -1,16 +1,28 @@
-//Action Value
+// src/redux/modules/usersSlice.js
 
-// Action Creator
+import { createSlice } from "@reduxjs/toolkit";
 
-//Initial State
-const initialState = {};
-
-// 리듀서
-const users = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
+const initialState = {
+  todos: [
+    {
+        id: 1,
+        title: "react를 배워봅시다.",
+        text: "zz",
+        isDone: false,
+    },
+    {
+        id: 2,
+        title: "redux를 배워봅시다.",
+        text : "gg",
+        isDone: true,
+    }]
 };
 
-export default users;
+export const usersSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {},
+});
+
+export const { } = usersSlice.actions;
+export default usersSlice.reducer;
