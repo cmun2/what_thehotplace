@@ -46,7 +46,6 @@ const Detail = () => {
 };
 
 export default Detail;
-
 const DetailBody = styled.div`
 //아이템 중앙 정렬
   display: flex;
@@ -54,7 +53,7 @@ const DetailBody = styled.div`
   justify-content: top;
   align-items: center;
 
-  width: 80%;
+  width: 60%;
   height: 600px;
   margin: auto;
   border-radius: 10px;
@@ -91,7 +90,7 @@ const DetailBody = styled.div`
 //이미지 임시
 const Img = styled.div`
   height: 40%;
-  width: 80%;
+  width: 50%;
   background-color: purple;
   text-align: center;
   padding: 10px;
