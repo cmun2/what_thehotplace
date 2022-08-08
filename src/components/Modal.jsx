@@ -2,7 +2,9 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { useDispatch } from "react-redux/es/exports";
-import { addNumber } from "../redux/modules/users";
+// import { addNumber } from "../redux/modules/users";
+
+import {addNumber} from "../redux/modules/users";
 
 
 
@@ -145,7 +147,7 @@ function Modal() {
         setComents(value);
     };
 
-    console.log(title, coments, img)
+    // console.log(title, coments, img)
 
 
     const onSubmitHandler = () => {
