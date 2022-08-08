@@ -1,20 +1,27 @@
-import Comments from "../components/Comments";
+// src/Detail.jsx
+
+import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
+import Comments from "../components/Comments";
+import Header from "../components/Heaedr";
 
 const Detail = () => {
+
   return (
     <>
+    <Header/>
       <DetailBody>
-        <h2>하하</h2>
+        <h2>핫플 제목</h2>
         <Img>나의 핫플 사진</Img>
         <p>어쩌라고 핫플이나 가</p>
         <div>
-          <button>돌아가기</button>
-          <button>게시글 수정</button>
+          <Link to="/"><button>돌아가기</button></Link>
+          <Link to="/edit"><button>게시글 수정</button></Link>
         </div>
       </DetailBody>
       <DeliteButton>게시글 삭제</DeliteButton>
-      <Comments />
+      <Comments/>
     </>
   );
 };
@@ -22,44 +29,49 @@ const Detail = () => {
 export default Detail;
 
 const DetailBody = styled.div`
-  //아이템 중앙 정렬
+//아이템 중앙 정렬
   display: flex;
   flex-direction: column;
   justify-content: top;
   align-items: center;
-  width: 60%;
-  height: 600px;
-  margin: auto;
+
+  border-top: 9px solid #ff0068;
+  width: 50%;
+  height: 530px;
+  margin: 10px auto auto auto;
   border-radius: 10px;
-  background-color: red;
+  background-color: #000000dc;
+  border: 1px solid none;
+  box-shadow: 6px 6px 6px 6px #0000ff19;
+  color: #ff0068;
   h2 {
-    margin: 0px auto 10px auto;
-    width: 90%;
-    height: 38px;
-    text-align: center;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: purple;
-  }
+      margin: 5px auto 10px auto;
+      width: 90%;
+      height: 45px;
+      text-align: center;
+      padding: 10px;
+      border-radius: 5px;
+    }
   p {
-    font-size: 15px;
+    padding: 5px;
+    font-size: 16px;
     width: 80%;
-    height: 40%;
+    height: 30%;
     margin-top: 10px;
-    background-color: purple;
   }
   div {
     margin: 7px;
-    button {
-      background-color: #a5f9b991;
-      border-radius: 5px;
-      border: 0px;
-      padding: 5px;
-      margin-left: 5px;
-      width: 100px;
-    }
+      button {
+        width: 120px;
+        padding: 10px;
+        border: 2px solid #ff0068;
+        border-radius: 10px;
+        background-color: #ff0068;
+        color: white;
+        margin-left: 15px;
+        }
   }
-`;
+`
 
 //이미지 임시
 const Img = styled.div`
@@ -68,14 +80,15 @@ const Img = styled.div`
   background-color: purple;
   text-align: center;
   padding: 10px;
-`;
+`
 const DeliteButton = styled.button`
-  /* width: 4%; */
-  margin-left: 75%;
-  margin-top: 10px;
-  background-color: #a5f9b991;
-  border-radius: 5px;
-  border: 0px;
-  padding: 5px;
-  width: 85px;
-`;
+  width: 8%;
+  margin-left: 63%;
+  margin-top: 15px;
+  width: 120px;
+  padding: 10px;
+  border: 2px solid #ff0068;
+  border-radius: 10px;
+  background-color: #ff0068;
+  color: white;
+`

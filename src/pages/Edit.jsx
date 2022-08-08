@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 const Edit = () => {
   return (
@@ -14,8 +15,8 @@ const Edit = () => {
           <Content>REVIEW<ContentInput></ContentInput> </Content> 
         </ContentBox>
         <Btn>
-          <CompleteBtn> 취소 </CompleteBtn>
-          <CancelBtn> 수정완료 </CancelBtn>
+          <Link to="/Detail"><CompleteBtn> 취소 </CompleteBtn></Link>
+          <Link to="/Detail"><CancelBtn> 수정완료 </CancelBtn></Link>
         </Btn>
       </Box>
     </Base>
