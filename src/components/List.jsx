@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-
+import { Link } from 'react-router-dom';
 
 const Tedo = styled.div`
     border: 1px solid hotpink;
@@ -52,7 +52,7 @@ function List() {
                 <CardImag>
                 </CardImag>
                 <CardBody>
-                    <Cen><h3>강남 카페</h3></Cen>
+                    <Cen><Link to="/Detail"><h3>강남 카페</h3></Link></Cen>
                     <p>너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요</p>
                 </CardBody>
             </Card>

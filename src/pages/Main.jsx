@@ -10,7 +10,6 @@ function Main() {
       <Header/>
       <Modal/>
       <List/>
-    
     </div>
   )
 }

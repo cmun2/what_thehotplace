@@ -5,19 +5,22 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import Comments from "../components/Comments";
 import Header from "../components/Heaedr";
+import { useSelector } from "react-redux";
 
 const Detail = () => {
 
+  const  Detail  = useSelector((state) => state.counter.detail);
+  console.log(Detail[0].title)
   return (
     <>
     <Header/>
       <DetailBody>
-        <h2>핫플 제목</h2>
-        <Img>나의 핫플 사진</Img>
-        <p>어쩌라고 핫플이나 가</p>
+        <h2>{Detail[0].title}</h2>
+        <Img>{Detail[0].img}</Img>
+        <p>{Detail[0].body}</p>
         <div>
-          <Link to="/"><button>돌아가기</button></Link>
-          <Link to="/edit"><button>게시글 수정</button></Link>
+          <Link to="/"><button>목록으로</button></Link>
+          <Link to="/edit"><button>수정하기</button></Link>
         </div>
       </DetailBody>
       <DeliteButton>게시글 삭제</DeliteButton>

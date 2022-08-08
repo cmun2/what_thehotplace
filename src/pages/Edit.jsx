@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const Edit = () => {
+  const  Detail  = useSelector((state) => state.counter.detail[0]);
+  console.log(Detail.title)
   return (
     <>
     <Base>
@@ -10,9 +13,9 @@ const Edit = () => {
         <BarTxt1>Edit Information</BarTxt1>
         <BarTxt2>수정할 내용을 입력하세요.</BarTxt2>
         <ContentBox>
-          <Title>HOT PLACE<TitleInput></TitleInput> </Title>
-          <Image>IMAGE<ImageInput></ImageInput> </Image>
-          <Content>REVIEW<ContentInput></ContentInput> </Content> 
+          <Title>HOT PLACE<TitleInput value={Detail.title}></TitleInput> </Title>
+          <Image value={Detail.img}>IMAGE<ImageInput></ImageInput> </Image>
+          <Content>REVIEW<ContentInput value={Detail.body}></ContentInput> </Content> 
         </ContentBox>
         <Btn>
           <Link to="/Detail"><CompleteBtn> 취소 </CompleteBtn></Link>

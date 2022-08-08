@@ -40,7 +40,7 @@ const Comments = () => {
   //console.log(comment);
   //const [counter, setCounter] = useSelector((state) => state.counter.comment)
   //console.log(comment);
-  console.log(comment);
+  // console.log(comment);
   return (
     <CommentsBody>
       <form onSubmit={onSubmitHandler}>
