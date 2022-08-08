@@ -1,17 +1,33 @@
-// src/App.js
+// src/App.jsx
 
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { __getTodos } from "../redux/modules/todosSlice";
 
 const Main = () => {
-  // Store에 있는 todos 모듈 state 조회하기
-  const todos = useSelector((state) => state.todos);
+  const dispatch = useDispatch();
+  const { isLoading, error, todos } = useSelector((state) => state.todos);
 
-  // Store에 있는 counter 모듈 state 조회하기
-  const counter = useSelector((state) => state.counter);
+  useEffect(() => {
+    dispatch(__getTodos());
+  }, [dispatch]);
 
-  console.log(todos.todos[0].id, counter)
-  return <div>App</div>;
+  if (isLoading) {
+    return <div>로딩 중....</div>;
+  }
+
+  if (error) {
+    console.log(todos)
+    return <div>{error.message}</div>;
+  }
+
+  return (
+    <div>
+      {todos.map((todo) => (
+        <div key={todo.id}>{todo.title}</div>
+      ))}
+    </div>
+  );
 };
 
 export default Main;
