@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import counter from "../modules/commentSlice";
+import users from "../modules/users";
 
 const store = configureStore({
-  reducer: { counter: counter },
+  reducer: { counter: counter, users: users },
 });
 
 export default store;
@@ -16,5 +17,3 @@ export default store;
 // });
 
 // const store = createStore(rootReducer);
-
-// export default store;
