@@ -5,12 +5,11 @@ import { getListThunk } from "../redux/modules/users";
 
 
 const Tedo = styled.div`
-    border: 1px solid hotpink;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 35px;
 `
 
 
@@ -19,7 +18,7 @@ const Card = styled.div`
    flex-direction: column;
    margin: 50px 50px 30px;
    border-radius: 15px;
-   border: 2px solid black;
+   border: 2px solid hotpink;
    overflow: hidden;
 `
 
@@ -37,7 +36,7 @@ const CardBody = styled.div`
    flex-direction: column;
 `
 
-const Cen = styled.div`
+const Titlecen = styled.div`
     display: flex;
     justify-content: center;
 `
@@ -60,12 +59,12 @@ function List() {
         <>
             <Tedo>
                 {
-                    list.map(function (a, i) {
+                    list.map(function (a) {
                         return (
                             <Card key={a.id}>
-                                <CardImag>{a.img}</CardImag>
+                                <CardImag><img style={{width:"450px", height:"200px"}} src={a.imgFile}/></CardImag>
                                 <CardBody>
-                                    <Cen><h3>{a.title}</h3></Cen>
+                                    <Titlecen><h3>{a.title}</h3></Titlecen>
                                     <p>{a.coments}</p>
                                 </CardBody>
                             </Card>
