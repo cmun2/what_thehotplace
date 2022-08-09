@@ -15,5 +15,25 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "list": [
+    {
+      "title": "신사동 카페",
+      "coments": "사진 맛집",
+      "img": "이미지",
+      "id": 1
+    },
+    {
+      "title": "강남 카페",
+      "coments": "커피가 맛있어요",
+      "img": "이미지2",
+      "id": 2
+    },
+    {
+      "title": "강남 qwe",
+      "coments": "커피가 qwe",
+      "img": "ew",
+      "id": 3
+    }
+  ]
 }

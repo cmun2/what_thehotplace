@@ -4,14 +4,13 @@ import List from "../components/List";
 
 
 
-function Main() {
+const Main = ()=> {
   return (
-    <div style={{height:"5000px"}}>
-      <Header/>
-      <Modal/>
-      <List/>
-    
-    </div>
+    <>
+    <Header/>
+    <Modal/>
+    <List/>
+    </>
   )
 }
 
