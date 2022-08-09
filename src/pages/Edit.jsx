@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
 
 const Edit = () => {
-  const  Detail  = useSelector((state) => state.counter.detail[0]);
+  const  Detail  = useSelector((state) => state.counter.detail);
   console.log(Detail.title)
   return (
     <>

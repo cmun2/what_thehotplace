@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { useDispatch } from "react-redux/es/exports";
 // import { addNumber } from "../redux/modules/users";
+import axios from "axios";
 
-import {addNumber} from "../redux/modules/users";
+import { addNumber, getListThunk } from "../redux/modules/users";
 
 
 
@@ -122,47 +123,34 @@ function Modal() {
 
     let [modal, setModal] = useState(false)
 
-    let list = useSelector((state) => state)
-    console.log(list.users)  
-
-    const[title, setTitle] = useState('');
-    const[coments, setComents] = useState('');
-    const[img, setImg] = useState('');
 
     const dispatch = useDispatch();
+    const qwe = useSelector((state) => state.users)
 
+    console.log(qwe)
 
-    const onChangeHandler1 = (evnet) => {
-        const { value } = evnet.target;
-        setImg(value);
-    };
-
-    const onChangeHandler2 = (evnet) => {
-        const { value } = evnet.target;
-        setTitle(value);
-    };
-
-    const onChangeHandler3 = (evnet) => {
-        const { value } = evnet.target;
-        setComents(value);
-    };
-
-    // console.log(title, coments, img)
-
-
-    const onSubmitHandler = () => {
-        if (title === "") return; // 아무것도 입력하지 않았을 때 dispatch 하지 않음
+    const [inputs, setInputs] = useState({
+        title: '',
+        coments: '',
+      });
     
-        dispatch(
-            addNumber({
-            title,
-            coments,
-            img,
-          })
-        );
-          setTitle('')
-          setComents('')
-          setImg('')
+      const { title, coments } = inputs; // 비구조화 할당을 통해 값 추출
+    
+      const onChange = (e) => {
+        const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+        setInputs({
+          ...inputs, // 기존의 input 객체를 복사한 뒤
+          [name]: value // name 키를 가진 값을 value 로 설정
+        });
+      };
+
+      console.log(title, coments)
+
+
+      const onSubmitHandler = (inputs) => {
+        if (title, coments=== "") return;
+        axios.post("http://localhost:3001/list", inputs);
+        setInputs('');
       };
 
     return (
@@ -174,14 +162,16 @@ function Modal() {
                         <ModalBox>
                             <Logo>로고임</Logo>
                             <Box>
-                                <InputOne onChange={onChangeHandler1} type={'text'} placeholder="사진 들어갈곳" value={img}></InputOne>
-                                <Photo>사진 추가</Photo>
-                                <InputTwo onChange={onChangeHandler2} type={'text'} placeholder="핫플레이스 이름" value={title}></InputTwo>
-                                <InputThr onChange={onChangeHandler3} type={'text'} placeholder="리뷰!" value={coments}></InputThr>
+                                <form>
+                                    <label htmlFor="profile-upload" />
+                                    <input type="file" id="profile-upload" accept="image/*" />
+                                </form>
+                                <InputTwo name="title" placeholder="핫플레이스 이름" onChange={onChange} value={title}></InputTwo>
+                                <InputThr name="coments" placeholder="닉네임" onChange={onChange} value={coments}></InputThr>
                             </Box>
                             <Zxc>
                                 <ModalButton onClick={() => { setModal(!modal) }}>취소</ModalButton>
-                                <ModalButton onClick={onSubmitHandler}>작성하기</ModalButton>
+                                <ModalButton onClick={()=> {onSubmitHandler(inputs); alert("작성 완료!!"); setModal(!modal)}}>작성하기</ModalButton>
                             </Zxc>
                         </ModalBox>
                     </ModalBackground></> : null

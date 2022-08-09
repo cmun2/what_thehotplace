@@ -5,11 +5,13 @@ import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import Comments from "../components/Comments";
 import Header from "../components/Heaedr";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getDetail } from "../redux/modules/commentSlice";
 
 const Detail = () => {
-
+  const dispatch = useDispatch();
   const  Detail  = useSelector((state) => state.counter.detail);
+  
   return (
     <>
     <Header/>
@@ -19,7 +21,7 @@ const Detail = () => {
         <p>{Detail.body}</p>
         <div>
           <Link to="/"><button>목록으로</button></Link>
-          <Link to={`/edit/${Detail.title}`}><button>수정하기</button></Link>
+          <Link to={`/edit/${Detail.id}`}><button onClick={() => dispatch(getDetail(Detail))}>수정하기</button></Link>
         </div>
       </DetailBody>
       <DeliteButton>게시글 삭제</DeliteButton>

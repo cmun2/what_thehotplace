@@ -27,8 +27,15 @@ const commentSlice = createSlice({
         comment: [...state.comment, action.payload.counters],
       };
     },
+    getDetail: (state, action) => {
+      console.log(state, action.payload)
+      return {
+        ...state,
+        detail: [action.payload]
+      }
+    }
   },
 });
 
-export const { addComment } = commentSlice.actions;
+export const { addComment, getDetail } = commentSlice.actions;
 export default commentSlice.reducer;
