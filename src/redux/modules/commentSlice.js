@@ -8,13 +8,13 @@ const initialState = {
       ment: "하하하",
     },
   ],
-  detail:  [
+  detail:  
     {
       "id": 1,
       "title": "hello world!",
       "body": "미쳤어"
     }
-  ]
+  
 };
 
 const commentSlice = createSlice({

@@ -10,17 +10,16 @@ import { useSelector } from "react-redux";
 const Detail = () => {
 
   const  Detail  = useSelector((state) => state.counter.detail);
-  console.log(Detail[0].title)
   return (
     <>
     <Header/>
       <DetailBody>
-        <h2>{Detail[0].title}</h2>
-        <Img>{Detail[0].img}</Img>
-        <p>{Detail[0].body}</p>
+        <h2>{Detail.title}</h2>
+        <Img>{Detail.img}</Img>
+        <p>{Detail.body}</p>
         <div>
           <Link to="/"><button>목록으로</button></Link>
-          <Link to="/edit"><button>수정하기</button></Link>
+          <Link to={`/edit/${Detail.title}`}><button>수정하기</button></Link>
         </div>
       </DetailBody>
       <DeliteButton>게시글 삭제</DeliteButton>
