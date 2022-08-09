@@ -1,28 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 const Edit = () => {
-  const  Detail  = useSelector((state) => state.counter.detail);
-  console.log(Detail.title)
+  const Detail = useSelector((state) => state.counter.detail);
+
+  const [editDetail, setEditDetail] = useState({
+    title: Detail.title,
+  });
+
+  // 수정버튼 이벤트 핸들러 추가 👇
+  const onClickEditButtonHandler = (id, edit) => {
+    axios.patch(`http://localhost:3001/detail/${id}`, edit);
+  };
+
   return (
     <>
-    <Base>
-      <Box>
-        <BarTxt1>Edit Information</BarTxt1>
-        <BarTxt2>수정할 내용을 입력하세요.</BarTxt2>
-        <ContentBox>
-          <Title>HOT PLACE<TitleInput value={Detail.title}></TitleInput> </Title>
-          <Image value={Detail.img}>IMAGE<ImageInput></ImageInput> </Image>
-          <Content>REVIEW<ContentInput value={Detail.body}></ContentInput> </Content> 
-        </ContentBox>
-        <Btn>
-          <Link to="/Detail"><CompleteBtn> 취소 </CompleteBtn></Link>
-          <Link to="/Detail"><CancelBtn> 수정완료 </CancelBtn></Link>
-        </Btn>
-      </Box>
-    </Base>
+      <Base>
+        <Box>
+          <BarTxt1>Edit Information</BarTxt1>
+          <BarTxt2>수정할 내용을 입력하세요.</BarTxt2>
+          <ContentBox>
+            <Title>HOT PLACE<TitleInput value={editDetail.title} onChange={(ev) => {
+              setEditDetail({
+                title: ev.target.value,
+              });
+            }}></TitleInput> </Title>
+            <Image value={Detail.img}>IMAGE<ImageInput></ImageInput> </Image>
+            <Content>REVIEW<ContentInput value={Detail.body}></ContentInput> </Content>
+          </ContentBox>
+          <Btn>
+            <Link to={`/detail/${Detail.id}`}><CompleteBtn> 취소 </CompleteBtn></Link>
+            <Link to={`/detail/${Detail.id}`}><CancelBtn onClick={() => onClickEditButtonHandler(Detail.id, editDetail)}> 수정완료 </CancelBtn></Link>
+          </Btn>
+        </Box>
+      </Base>
     </>
   )
 };

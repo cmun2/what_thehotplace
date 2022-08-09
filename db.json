@@ -15,5 +15,26 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "detail": [
+    {
+      "id": 1,
+      "title": "hello world!ㅇㅈㅁ",
+      "body": "gkgkgk"
+    }
+  ],
+  "todos": [
+    {
+      "id": "1",
+      "title": "wada"
+    },
+    {
+      "title": "1111",
+      "id": "rN1JCyY"
+    },
+    {
+      "title": "ddzzz",
+      "id": "NPlXojN"
+    }
+  ]
 }

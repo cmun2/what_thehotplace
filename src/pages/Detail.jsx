@@ -10,8 +10,8 @@ import { getDetail } from "../redux/modules/commentSlice";
 
 const Detail = () => {
   const dispatch = useDispatch();
-  const  Detail  = useSelector((state) => state.counter.detail);
-  
+  const Detail  = useSelector((state) => state.counter.detail);
+
   return (
     <>
     <Header/>

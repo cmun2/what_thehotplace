@@ -10,9 +10,9 @@ const initialState = {
   ],
   detail:  
     {
-      "id": 1,
-      "title": "hello world!",
-      "body": "미쳤어"
+      id: uuidv4(),
+      title: "hello world!",
+      body: "미쳤어"
     }
   
 };
@@ -28,10 +28,9 @@ const commentSlice = createSlice({
       };
     },
     getDetail: (state, action) => {
-      console.log(state, action.payload)
       return {
         ...state,
-        detail: [action.payload]
+        detail: action.payload
       }
     }
   },

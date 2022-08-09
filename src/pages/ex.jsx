@@ -1,6 +1,6 @@
 // src/Detail.jsx
 
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import styled from "styled-components";
 const Ex = () => {
 
@@ -9,6 +9,12 @@ const Ex = () => {
     const onImgChange = (e) => { 
       setImageUrl(e.target.files[0]);
     }
+
+    const [value, setValue] = useState("");
+
+    const onChange=useCallback(e => {
+      setValue(e.targer.value);
+    }, []);
 
     return(
         <div className="fileContainer">
@@ -22,6 +28,9 @@ const Ex = () => {
             onChange={onImgChange} >
           </input>
 
+          <form className="TodoInsert">
+          <input placeholder="입력테스트" value={value} onChange={onChange}></input>
+          </form>
         </div>
     )
 };

@@ -1,29 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios"
 const initialState = {
-  todos: [
-    {  title: "신사동 카페", coments: "사진 맛집", img: '이미지',  },
-    {  title: "강남 카페", coments: "커피가 맛있어요", img: '이미지2',},
-  ]
+  list: [],
 }
 
 
+export const getListThunk = createAsyncThunk("getLists", async (payload, api) => {
+
+  try {
+    const data = await axios.get(
+      "http://localhost:3001/list"
+    );
+   return api.fulfillWithValue(data.data);
+  } catch(e) {
+  return api.rejectWithValue(e);
+  }
+});
 
 
-const counterSlice = createSlice({
+const creSlice = createSlice({
   name: "create",
   initialState,
-  reducers: {
-    addNumber: (state, action) => {
-      state.todos = [state, action.payload]
+  reducers: {},
+  extraReducers: {
+    [getListThunk.fulfilled]: (state, action)=> {
+      state.list = action.payload; 
     },
+    [getListThunk.rejected] : (state, action) => {
+      console.log(action);
+    }
   },
 });
 
 // 액션크리에이터는 컴포넌트에서 사용하기 위해 export 하고
-export const { addNumber } = counterSlice.actions;
+export const { addNumber } = creSlice.actions;
 // reducer 는 configStore에 등록하기 위해 export default 합니다.
-export default counterSlice.reducer;
+export default creSlice.reducer;
 
 // import { createSlice } from "@reduxjs/toolkit";
 
@@ -50,3 +62,10 @@ export default counterSlice.reducer;
 // export const { addNumber, minusNumber } = counterSlice.actions;
 // // reducer 는 configStore에 등록하기 위해 export default 합니다.
 // export default counterSlice.reducer;
+
+// reducers: {
+//   addNumber: (state, action) => {
+//     state.todos = [...state.todos, action.payload]
+//   },
+// },
+// });
