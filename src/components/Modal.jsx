@@ -129,28 +129,6 @@ function Modal() {
 
     console.log(qwe)
 
-    
-
-
-    // const [img, setImg] = useState('');
-
-    // const onChangeHandler1 = (evnet) => {
-    //     const { value } = evnet.target;
-    //     setImg(value);
-    // };
-
-    // const onChangeHandler2 = (evnet) => {
-    //     const { value } = evnet.target;
-    //     setTitle(value);
-    // };
-
-    // const onChangeHandler3 = (evnet) => {
-    //     const { value } = evnet.target;
-    //     setComents(value);
-    // };
-
-    // console.log(title, coments, img)
-
     const [inputs, setInputs] = useState({
         title: '',
         coments: '',
@@ -172,6 +150,7 @@ function Modal() {
       const onSubmitHandler = (inputs) => {
         if (title, coments=== "") return;
         axios.post("http://localhost:3001/list", inputs);
+        setInputs('');
       };
 
     return (
@@ -192,7 +171,7 @@ function Modal() {
                             </Box>
                             <Zxc>
                                 <ModalButton onClick={() => { setModal(!modal) }}>취소</ModalButton>
-                                <ModalButton onClick={()=> {onSubmitHandler(inputs)}}>작성하기</ModalButton>
+                                <ModalButton onClick={()=> {onSubmitHandler(inputs); alert("작성 완료!!"); setModal(!modal)}}>작성하기</ModalButton>
                             </Zxc>
                         </ModalBox>
                     </ModalBackground></> : null
