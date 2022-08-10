@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import { useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import commentSlice, { addComment } from "../redux/modules/commentSlice";
 import axios from "axios";
@@ -9,12 +8,17 @@ import Pagination from "../components/Pagination";
 import { __getComments } from "../redux/modules/commentsSlice";
 import DetailComments from "./DetailComments";
 import { useParams, useNavigate } from "react-router-dom";
+//import commentSlice, { addComment } from "../redux/modules/commentSlice";
+//import { __getComments } from "../redux/modules/commentsSlice";
+//import Pagination from "../components/Pagination";
+//import InfiniteScroll from "../components/InfiniteScroll";
 
 const Comments = () => {
   const startState = {
     id: uuidv4(),
     ment: "",
   };
+
   const [counts, setCounts] = useState(startState);
   const [countings, setCountings] = useState([]);
   //const [posts, setPosts] = useState([]);
@@ -51,6 +55,20 @@ const Comments = () => {
     const { name, value } = e.target;
     setCounts({ ...counts, [name]: value, id: uuidv4(), postId: parseInt(id) });
   };
+  //const offset = (page - 1) * limit;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [postsPerPage] = useState(5); //how many per page
+
+  const fetchComments = async () => {
+    //setLoading(true); //fetching 진행중
+    const { data } = await axios.get("http://localhost:3001/comment");
+    setCountings(data);
+    //setLoading(false); //fetching 끝
+  };
+
+  useEffect(() => {
+    fetchComments(); //update 될때마다 mount, 이렇게만하면 loop가 끝나지 않음
+  }, []);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -94,6 +112,41 @@ const Comments = () => {
 
   //페이지 바꾸기
   //const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const [isEdit, setIsEdit] = useState(false);
+  const toggleIsEdit = () => setIsEdit(!isEdit); //true, false 반전시켜주는 함수
+
+  const [localContent, setLocalContent] = useState(counts); //textarea의 input을 핸들링할 state
+
+  const handleQuitEdit = () => {
+    //수정상태에서 나갈때 함수
+    setIsEdit(false); //isEdit을 false로 만들어준 다음에
+    setLocalContent(counts);
+  };
+
+  const onEdit = (commentId, newComment) => {
+    //특정 일기 데이터를 수정하는 함수/ targetId(=commentId)를 수정할것임
+    fetchComments(
+      counts.map((it) => it.id === commentId)
+        ? { ...it, comment: newComment }
+        : it //일치하는 함수 1개 = 수정대상
+    ); //it은 원본 값. target이 아닌 값은 it = 원본값을 갖게됨
+  };
+
+  const localContentInput = useRef(); //5글자 미만일때 input창 포커싱
+
+  const handleEdit = () => {
+    //수정완료를 눌렀을 때 처리되는 함수
+    if (localContent.length < 5) {
+      localContentInput.current.focus();
+      return;
+    }
+  };
+  if (window.confirm(`댓글을 수정하시겠습니까?`)) {
+    onEdit(counts.Id, localContent); //"예" 누르면 수정완료
+    toggleIsEdit(); //수정폼 닫기
+  }
+
   return (
     <CommentsBody>
       <form onSubmit={onSubmitHandler}>
@@ -109,15 +162,34 @@ const Comments = () => {
 
       {currentCountings?.map((count) => (
         <div key={count.id}>
-          {count.ment}
+          {isEdit ? (
+            <>
+              <textarea
+                ref={localContentInput}
+                value={localContent}
+                onChange={(e) => setLocalContent(e.target.value)}
+              />
+            </>
+          ) : (
+            <>{count.ment}</>
+          )}
           <span>
-            <button>수정</button>
-            <button
-              type="button"
-              onClick={() => onClickDeleteButtonHandler(count.id)}
-            >
-              삭제
-            </button>
+            {isEdit ? (
+              <>
+                <button onClick={handleQuitEdit}>수정 취소</button>
+                <button onClick={handleEdit}>수정 완료</button>
+              </>
+            ) : (
+              <>
+                <button onClick={toggleIsEdit}>수정</button>
+                <button
+                  type="button"
+                  onClick={() => onClickDeleteButtonHandler(count.id)}
+                >
+                  삭제
+                </button>
+              </>
+            )}
           </span>
         </div>
       ))}
@@ -129,7 +201,6 @@ const Comments = () => {
           setPage={setPage}
         />
       </footer>
-      <DetailComments />
     </CommentsBody>
   );
 };
