@@ -2,11 +2,12 @@
 
 import React, {useState, useEffect} from "react";
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Comments from "../components/Comments";
 import Header from "../components/Heaedr";
 import { useSelector, useDispatch } from "react-redux";
 import { getDetail } from "../redux/modules/commentSlice";
+
 import axios from "axios";
 
 const Detail = () => {
@@ -17,9 +18,13 @@ const Detail = () => {
     title: Detail.title,
   });
   
-
+  const params = useParams()
+  const [DetailId, setDetailId] = useState({
+    id: params.id,
+  });
+  
   const fetchDetail = async (id) => {
-    const { data } = await axios.get(`http://localhost:3001/list/${id}`);
+    const { data } = await axios.get(`http://localhost:3001/list/${DetailId.id}`);
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
   };
 

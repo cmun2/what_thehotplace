@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
@@ -11,9 +11,16 @@ const Edit = () => {
     title: Detail.title,
     body: Detail.body,
   });
-  console.log(editDetail)
+  
+  
+  const params = useParams()
+  const [DetailId, setDetailId] = useState({
+    id: params.id,
+  });
+  
+
   const fetchDetail = async (id) => {
-    const { data } = await axios.get(`http://localhost:3001/list/${id}`);
+    const { data } = await axios.get(`http://localhost:3001/list/${DetailId.id}`);
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
   };
 
