@@ -87,33 +87,9 @@ const ModalButton = styled.button`
     margin: 10px;
 `
 
-const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-
-const Name = styled.label`
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    margin-top: 20px;
-    
-`
-
 const Btslice = styled.div`
     text-align: center;
     margin-top: 30px;
-`
-const Photo = styled.button`
-    border: 1px solid black;
-    margin-top: 10px;
-    margin-left: 220px;
-    color: hotpink;
-    background-color: black;
-    width: 70px;
-    height: 25px;
-    border-radius: 8px;
 `
 
 
@@ -138,6 +114,7 @@ function Modal() {
     const [inputs, setInputs] = useState({
         title: '',
         body: '',
+        imgFile:'',
     });
 
     // 비구조화 할당을 통해 값 추출
@@ -194,6 +171,7 @@ function Modal() {
             title:'',
             body:'',
             imgesrc:'',
+            // imgFile:'',
         });
     };
 
