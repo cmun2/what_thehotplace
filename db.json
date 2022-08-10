@@ -1,19 +1,84 @@
 {
-  "posts": [
+  "comment": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
-    }
-  ],
-  "comments": [
+      "id": "6caec160-0565-4a18-94cc-0fde9bb0a8c9",
+      "ment": "sfsfsfsfs"
+    },
     {
-      "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "id": "83754894-29a9-464f-acf9-2334af377fb5",
+      "ment": "zzzzz"
+    },
+    {
+      "id": "1c3ee4a7-54f5-4984-af8e-09f5e71072e4",
+      "ment": "fsfsfsfsfs"
+    },
+    {
+      "id": "8a83ce33-a1f2-4b06-b870-8bee812cf631",
+      "ment": "fsfsfsfsfsf"
+    },
+    {
+      "id": "ec20c075-bfd3-4e94-94b5-818e31091f74",
+      "ment": "sfsfsfsfsf"
+    },
+    {
+      "id": "fd549496-5fe0-49cc-a42f-79bcde28959c",
+      "ment": "sfsdfsfsfsfs"
+    },
+    {
+      "id": "513dcdd0-9534-4dae-829c-7ce796848e46",
+      "ment": "dfsdfssssssssssssssssssss"
+    },
+    {
+      "id": "9e6dbf7c-6387-42c9-8d6e-e0c73ac52a86",
+      "ment": "dfsdfssssssssssssssssssssssss"
+    },
+    {
+      "id": "7405bb23-d9ce-4245-8e7e-30316f52f9b4",
+      "ment": "dfsdfssssssssssssssssssssssssssssss"
+    },
+    {
+      "id": "ca2dac8d-756a-4860-93bd-ce2e6e628acf",
+      "ment": "dfsdfssssssssssssssssssssssssssssssssss"
+    },
+    {
+      "id": "f5c67b63-1d17-4f14-ac40-1e3d16b637db",
+      "ment": "ssssssssssssssssssssssssssssssssssssssssss"
+    },
+    {
+      "id": "35e6ff1f-a861-4f49-80d9-5382ae1ee57f",
+      "ment": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "8b5e1f95-17d5-4f8b-bd9d-731b4226a7ab",
+      "ment": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "id": "be3d8da3-b716-425e-9635-4967d6f774ac",
+      "ment": "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"
+    },
+    {
+      "id": "bd81443f-de08-4a62-9613-67eaef5d2092",
+      "ment": "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"
+    },
+    {
+      "id": "0cec6e15-8abc-44c2-894e-17e15e39a0b2",
+      "ment": "휴 힘들다"
+    },
+    {
+      "id": "8746b7e6-255b-45ed-8f03-ee27e03ea634",
+      "ment": "ㄴㄹㄴㄹㄴㄹ"
+    },
+    {
+      "id": "6abdd957-f716-4d78-be0d-ba0041004ee8",
+      "ment": "ㄴㄹㄴㄹㄴㄹ"
+    },
+    {
+      "id": "b1e12c77-9cd2-4c55-9079-e17f61ab8f63",
+      "ment": "ㄴㄹㄴㄹㄴㄹㄴㄹㄴㄴ"
+    },
+    {
+      "id": "15a80770-c521-4c0a-86b9-0246bb3337ef",
+      "ment": "ㄹㄴㄹㄴㄹㄴㄹ"
     }
-  ],
-  "profile": {
-    "name": "typicode"
-  }
+  ]
 }

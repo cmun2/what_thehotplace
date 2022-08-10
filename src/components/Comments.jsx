@@ -1,8 +1,13 @@
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import commentSlice, { addComment } from "../redux/modules/commentSlice";
+//import { __getComments } from "../redux/modules/commentsSlice";
+import axios from "axios";
+import Pagination from "../components/Pagination";
+import InfiniteScroll from "../components/InfiniteScroll";
 
 const Comments = () => {
   const startState = {
@@ -10,58 +15,93 @@ const Comments = () => {
     ment: "",
   };
 
-  const [counters, setCounters] = useState(startState);
-  //const { comments } = useSelector((state) => state.comment);
+  const [counts, setCounts] = useState(startState);
+  const [countings, setCountings] = useState([]);
+  //const [posts, setPosts] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  const [limit] = useState(5);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [postsPerPage] = useState(5); //how many per page
 
-  const dispatch = useDispatch();
+  const fetchComments = async () => {
+    //setLoading(true); //fetching 진행중
+    const { data } = await axios.get("http://localhost:3001/comment");
+    setCountings(data);
+    //setLoading(false); //fetching 끝
+  };
+
+  useEffect(() => {
+    fetchComments(); //update 될때마다 mount, 이렇게만하면 loop가 끝나지 않음
+  }, []);
 
   const onChangeHandler = (e) => {
-    //console.log(e.target.value);
     const { name, value } = e.target;
-    setCounters({ ...counters, [name]: value, id: uuidv4() });
+    setCounts({ ...counts, [name]: value, id: uuidv4() });
   };
 
-  const onSubmitHandler = (e) => {
-    //console.log(counter);
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (counters === "") return;
-
-    dispatch(
-      addComment({
-        counters,
-      })
-    );
-    //console.log(e.counter);
-    setCounters(startState);
+    if (counts === "") return;
+    await axios.post("http://localhost:3001/comment", counts);
+    fetchComments();
+    setCounts(startState);
   };
 
-  const { comment } = useSelector((state) => state.counter);
-  // console.log(comment)
-  //console.log(comment);
-  //const [counter, setCounter] = useSelector((state) => state.counter.comment)
-  //console.log(comment);
-  console.log(comment);
+  const onClickDeleteButtonHandler = async (commentId) => {
+    await axios.delete(`http://localhost:3001/comment/${commentId}`);
+    fetchComments();
+  };
+  // useEffect(() => {
+  //   fetchComments();
+  // }, []);
+
+  //currentPost 가져오기
+  const indexOfLastPost = page * limit;
+  const indexOfFirstPost = indexOfLastPost - limit;
+  const currentCountings = countings.slice(indexOfFirstPost, indexOfLastPost);
+  // const indexOfLastPost = currentPage * postsPerPage;
+  // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  // const currentPosts = countings.slice(indexOfFirstPost, indexOfLastPost); //
+
+  //페이지 바꾸기
+  //const paginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <CommentsBody>
       <form onSubmit={onSubmitHandler}>
         <input
           type="text"
           name="ment"
-          value={counters.ment}
+          value={counts.ment}
           onChange={onChangeHandler}
         />
-        <button>작성</button>
+        <button disabled={counts.ment === ""}>작성</button>
       </form>
 
-      {comment.map((comment) => (
-        <div key={comment.id}>
-          {comment.ment}
+      {currentCountings?.map((count) => (
+        <div key={count.id}>
+          {/* <span>{count.id}</span> */}
+          {count.ment}
           <span>
             <button>수정</button>
-            <button>삭제</button>
+            <button
+              type="button"
+              onClick={() => onClickDeleteButtonHandler(count.id)}
+            >
+              삭제
+            </button>
           </span>
         </div>
       ))}
+      <footer>
+        <Pagination
+          total={countings.length}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+        />
+      </footer>
     </CommentsBody>
   );
 };
@@ -99,6 +139,17 @@ const CommentsBody = styled.div`
       padding: 5px;
       margin-left: 5px;
       width: 50px;
+
+      &:hover {
+        background-color: #f82c7a;
+        color: #000000c6;
+      }
+      &[disabled] {
+        background-color: gray;
+        cursor: revert;
+        transform: revert;
+        color: black;
+      }
     }
   }
   div {

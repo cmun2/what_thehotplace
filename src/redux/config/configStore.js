@@ -2,9 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import counter from "../modules/commentSlice";
 import users from "../modules/users";
+import comments from "../modules/commentsSlice";
 
 const store = configureStore({
-  reducer: { counter: counter, users: users },
+  reducer: { counter: counter, users: users, comments: comments },
 });
 
 export default store;
