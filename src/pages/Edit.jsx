@@ -9,8 +9,9 @@ const Edit = () => {
 
   const [editDetail, setEditDetail] = useState({
     title: Detail.title,
+    body: Detail.body,
   });
-
+  console.log(editDetail)
   const fetchDetail = async (id) => {
     const { data } = await axios.get(`http://localhost:3001/list/${id}`);
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
@@ -39,6 +40,7 @@ const Edit = () => {
                 value={editDetail.title}
                 onChange={(ev) => {
                   setEditDetail({
+                    ...editDetail,
                     title: ev.target.value,
                   });
                 }}
@@ -52,7 +54,15 @@ const Edit = () => {
               />
             </Image>
             <Content>
-              REVIEW<ContentInput value={Detail.body}></ContentInput>{" "}
+              REVIEW
+              <ContentInput value={editDetail.body}
+              onChange={(ev) => {
+                setEditDetail({
+                  ...editDetail,
+                  body: ev.target.value,
+                });
+              }}
+              ></ContentInput>{" "}
             </Content>
           </ContentBox>
           <Btn>
