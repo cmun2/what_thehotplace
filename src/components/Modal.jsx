@@ -2,8 +2,8 @@ import styled from "styled-components";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { useDispatch } from "react-redux/es/exports";
-// import { addNumber } from "../redux/modules/users";
 import axios from "axios";
+import { useRef } from "react";
 
 import { getListThunk } from "../redux/modules/users";
 
@@ -118,24 +118,30 @@ const Photo = styled.button`
 
 
 function Modal() {
-
+    //모달창 띄우기
     let [modal, setModal] = useState(false)
-
+    //이미지 미리보기
     let [imgesrc, setImgesrc] = useState('');
 
+    //타이틀 옵저버
+    const TitleInput= useRef();
 
+    //바디 옵저버 달기
+    const bodyInput= useRef();
+
+    //리덕스 데이터 가져오기
     const dispatch = useDispatch();
     const qwe = useSelector((state) => state.users)
-
     console.log(qwe)
 
+    //입력받을 인풋값 저장
     const [inputs, setInputs] = useState({
         title: '',
         body: '',
     });
 
-    const { title, body } = inputs; // 비구조화 할당을 통해 값 추출
-
+    // 비구조화 할당을 통해 값 추출
+    const { title, body} = inputs; 
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
         setInputs({
@@ -144,16 +150,28 @@ function Modal() {
         });
     };
 
+    //입력받은 인풋값들 POST요청으로 보내기
     const onSubmitHandler = async (inputs) => {
-        if (title, body === "") return;
+        if(imgesrc === "") {  //이미지 확인
+            alert("이미지가 없습니다 !!")  //없으면 알림
+            onReset();
+            return;
+        }
+        
+        if(bodyInput.current.value.length <10 ||  TitleInput.current.value.length === 0 ) {  //글자수 제한
+            alert('다시 한번 확인해주세요 !!');
+            onReset();   //다시 초기값으로 돌리기
+            return;
+        };
         await axios.post("http://localhost:3001/list", inputs);
-        dispatch(getListThunk());
-        setInputs('');
-        setImgesrc('');
+        dispatch(getListThunk());   //작성완료시 바로 붙기
+        setInputs('');  //작성완료시 빈칸으로 되기
+        setImgesrc(''); //작성완료시 빈칸으로 되기
+        alert('작성완료 !!');   //post 완료시 알람
         console.log(inputs)
     };
 
-
+    //이미지 문자화 및 다시 이미지화 작업
     const encodeFileToBase64 = async (a) => {
         const reader = new FileReader();
         reader.readAsDataURL(a)
@@ -170,6 +188,15 @@ function Modal() {
     };
 
 
+    const onReset = ()=> {
+        setInputs({
+            ...inputs,
+            title:'',
+            body:'',
+            imgesrc:'',
+        });
+    };
+
     return (
         <div>
             <Open onClick={() => { setModal(true) }}>모달창 열기</Open>
@@ -178,20 +205,20 @@ function Modal() {
                     <ModalBackground>
                         <ModalBox>
                             <Logo>로고임</Logo>
-                                    <img style={{width:"45%", height:"30%", marginTop:"5px", border:"10px solid hotpink;"}} src={imgesrc}/>
-                                <InputOne  name="image" type="file" accept="image/*" onChange={(e) => {
+                                    <img style={{width:"45%", height:"30%", marginTop:"5px", backgroundColor:"hotpink", borderRadius:"12px", border:"2px solid black"}} src={imgesrc}/>
+                                <InputOne name="image" type="file" accept="image/*" onChange={(e) => {
                                     const { value } = encodeFileToBase64(e.target.files[0])
                                     setInputs({
                                         ...inputs,
                                         imgFile: value
                                     })
                                 }} />
-                                
-                                <InputTwo name="title" placeholder="핫플레이스 이름" onChange={onChange} value={title} />
-                                <InputThr name="body" placeholder="리뷰를 10글자 이상 작성해주세요!!" onChange={onChange} value={body} />
+
+                                <InputTwo name="title" placeholder="핫플레이스 이름" onChange={onChange} value={title} ref={TitleInput}/>
+                                <InputThr name="body" placeholder="리뷰를 10글자 이상 작성해주세요!!" onChange={onChange} value={body} ref={bodyInput}/>
                                 <Btslice>
-                                    <ModalButton onClick={() => { setModal(!modal) }}>취소</ModalButton>
-                                <ModalButton onClick={() => { onSubmitHandler(inputs); alert("작성 완료!!"); setModal(!modal); }}>작성하기</ModalButton>
+                                    <ModalButton onClick={() => { setModal(!modal); onReset()}}>취소</ModalButton>
+                                <ModalButton onClick={() => { onSubmitHandler(inputs);  setModal(!modal); }}>작성하기</ModalButton>
                                 </Btslice>
                         </ModalBox>
                     </ModalBackground></> : null
