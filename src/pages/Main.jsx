@@ -6,7 +6,7 @@ import List from "../components/List";
 
 const Main = ()=> {
   return (
-    <div style={{height:"5000px"}}>
+    <div>
       <Header/>
       <Modal/>
       <List/>
