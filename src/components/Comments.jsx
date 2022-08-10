@@ -109,7 +109,6 @@ const Comments = () => {
 
       {currentCountings?.map((count) => (
         <div key={count.id}>
-          {/* <span>{count.id}</span> */}
           {count.ment}
           <span>
             <button>수정</button>
