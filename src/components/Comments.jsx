@@ -116,7 +116,7 @@ const Comments = () => {
   const [isEdit, setIsEdit] = useState(false);
   const toggleIsEdit = () => setIsEdit(!isEdit); //true, false 반전시켜주는 함수
 
-  const [localContent, setLocalContent] = useState(counts); //textarea의 input을 핸들링할 state
+  const [localContent, setLocalContent] = useState(""); //textarea의 input을 핸들링할 state
 
   const handleQuitEdit = () => {
     //수정상태에서 나갈때 함수
@@ -142,10 +142,10 @@ const Comments = () => {
       return;
     }
   };
-  if (window.confirm(`댓글을 수정하시겠습니까?`)) {
-    onEdit(counts.Id, localContent); //"예" 누르면 수정완료
-    toggleIsEdit(); //수정폼 닫기
-  }
+  // if (window.confirm(`댓글을 수정하시겠습니까?`)) {
+  //   onEdit(counts.Id, localContent); //"예" 누르면 수정완료
+  //   toggleIsEdit(); //수정폼 닫기
+  // }
 
   return (
     <CommentsBody>

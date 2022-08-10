@@ -27,36 +27,40 @@ const Detail = () => {
     fetchDetail(Detail.id);
   }, []);
 
-  const onDelete = (targetId) => {
-    console.log(`${targetId}가 삭제되었습니다.`);
-    axios.delete(`http://localhost:3001/${targetId}`);
+  // const onDelete = async (id) => {
+  //   //console.log(`${id}가 삭제되었습니다.`);
+  //   await axios.delete(`http://localhost:3001/list/${id}`);
+  // };
 
-    return (
-      <>
-        <Header />
-        <DetailBody>
-          <h2>{getDetail.title}</h2>
-          <img
-            style={{ width: "450px", height: "200px" }}
-            src={getDetail.imgFile}
-          />
-          <p>{getDetail.body}</p>
-          <div>
-            <Link to="/">
-              <button>목록으로</button>
-            </Link>
-            <Link to={`/edit/${getDetail.id}`}>
-              <button onClick={() => dispatch(getDetail(Detail))}>
-                수정하기
-              </button>
-            </Link>
-          </div>
-        </DetailBody>
-        <DeliteButton>게시글 삭제</DeliteButton>
-        <Comments />
-      </>
-    );
-  };
+  // useEffect(() => {
+  //   onDelete(Detail.id);
+  // }, []);
+
+  return (
+    <>
+      <Header />
+      <DetailBody>
+        <h2>{getDetail.title}</h2>
+        <img
+          style={{ width: "450px", height: "200px" }}
+          src={getDetail.imgFile}
+        />
+        <p>{getDetail.body}</p>
+        <div>
+          <Link to="/">
+            <button>목록으로</button>
+          </Link>
+          <Link to={`/edit/${getDetail.id}`}>
+            <button onClick={() => dispatch(getDetail(Detail))}>
+              수정하기
+            </button>
+          </Link>
+        </div>
+      </DetailBody>
+      <DeliteButton>게시글 삭제</DeliteButton>
+      <Comments />
+    </>
+  );
 };
 
 export default Detail;
