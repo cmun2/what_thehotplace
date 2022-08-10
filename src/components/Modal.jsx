@@ -1,10 +1,12 @@
 import styled from "styled-components";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { useDispatch } from "react-redux/es/exports";
 // import { addNumber } from "../redux/modules/users";
+import axios from "axios";
 
-import {addNumber} from "../redux/modules/users";
+import { getListThunk } from "../redux/modules/users";
+
 
 
 
@@ -33,14 +35,19 @@ const ModalBox = styled.div`
     background-color: white;
     border-radius: 10px;
     width: 40%;
-    height: 75%;
+    height: 60%;
+    max-width: 700px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 
 const Logo = styled.div`
     width: 100%;
     background-color: black;
-    height: 80px;
+    height: 60px;
     color: hotpink;
     display : flex;
     justify-content : center;
@@ -49,11 +56,6 @@ const Logo = styled.div`
 
 
 const InputOne = styled.input`
-    border-radius: 6px;
-    height: 250px;
-    padding-left: 10px;
-    width: 300px;
-    border: 1px solid hotpink;
     margin-top: 10px;
 `
 
@@ -89,7 +91,6 @@ const Box = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
 `
 
 const Name = styled.label`
@@ -100,7 +101,7 @@ const Name = styled.label`
     
 `
 
-const Zxc = styled.div`
+const Btslice = styled.div`
     text-align: center;
     margin-top: 30px;
 `
@@ -116,54 +117,58 @@ const Photo = styled.button`
 `
 
 
-
-
 function Modal() {
 
     let [modal, setModal] = useState(false)
 
-    let list = useSelector((state) => state)
-    console.log(list.users)  
+    let [imgesrc, setImgesrc] = useState('');
 
-    const[title, setTitle] = useState('');
-    const[coments, setComents] = useState('');
-    const[img, setImg] = useState('');
 
     const dispatch = useDispatch();
+    const qwe = useSelector((state) => state.users)
 
+    console.log(qwe)
 
-    const onChangeHandler1 = (evnet) => {
-        const { value } = evnet.target;
-        setImg(value);
+    const [inputs, setInputs] = useState({
+        title: '',
+        body: '',
+    });
+
+    const { title, body } = inputs; // 비구조화 할당을 통해 값 추출
+
+    const onChange = (e) => {
+        const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+        setInputs({
+            ...inputs, // 기존의 input 객체를 복사한 뒤
+            [name]: value // name 키를 가진 값을 value 로 설정
+        });
     };
 
-    const onChangeHandler2 = (evnet) => {
-        const { value } = evnet.target;
-        setTitle(value);
+    const onSubmitHandler = async (inputs) => {
+        if (title, body === "") return;
+        await axios.post("http://localhost:3001/list", inputs);
+        dispatch(getListThunk());
+        setInputs('');
+        setImgesrc('');
+        console.log(inputs)
     };
 
-    const onChangeHandler3 = (evnet) => {
-        const { value } = evnet.target;
-        setComents(value);
+
+    const encodeFileToBase64 = async (a) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(a)
+        return new Promise((resolve) => {
+            reader.onload = () => {
+                setImgesrc(reader.result);
+                setInputs({
+                    ...inputs,
+                    imgFile: reader.result,
+                })
+                resolve();
+            };
+        });
     };
 
-    // console.log(title, coments, img)
-
-
-    const onSubmitHandler = () => {
-        if (title === "") return; // 아무것도 입력하지 않았을 때 dispatch 하지 않음
-    
-        dispatch(
-            addNumber({
-            title,
-            coments,
-            img,
-          })
-        );
-          setTitle('')
-          setComents('')
-          setImg('')
-      };
 
     return (
         <div>
@@ -173,22 +178,25 @@ function Modal() {
                     <ModalBackground>
                         <ModalBox>
                             <Logo>로고임</Logo>
-                            <Box>
-                                <InputOne onChange={onChangeHandler1} type={'text'} placeholder="사진 들어갈곳" value={img}></InputOne>
-                                <Photo>사진 추가</Photo>
-                                <InputTwo onChange={onChangeHandler2} type={'text'} placeholder="핫플레이스 이름" value={title}></InputTwo>
-                                <InputThr onChange={onChangeHandler3} type={'text'} placeholder="리뷰!" value={coments}></InputThr>
-                            </Box>
-                            <Zxc>
-                                <ModalButton onClick={() => { setModal(!modal) }}>취소</ModalButton>
-                                <ModalButton onClick={onSubmitHandler}>작성하기</ModalButton>
-                            </Zxc>
+                                    <img style={{width:"45%", height:"30%", marginTop:"5px", border:"10px solid hotpink;"}} src={imgesrc}/>
+                                <InputOne  name="image" type="file" accept="image/*" onChange={(e) => {
+                                    const { value } = encodeFileToBase64(e.target.files[0])
+                                    setInputs({
+                                        ...inputs,
+                                        imgFile: value
+                                    })
+                                }} />
+                                
+                                <InputTwo name="title" placeholder="핫플레이스 이름" onChange={onChange} value={title} />
+                                <InputThr name="body" placeholder="리뷰를 10글자 이상 작성해주세요!!" onChange={onChange} value={body} />
+                                <Btslice>
+                                    <ModalButton onClick={() => { setModal(!modal) }}>취소</ModalButton>
+                                <ModalButton onClick={() => { onSubmitHandler(inputs); alert("작성 완료!!"); setModal(!modal); }}>작성하기</ModalButton>
+                                </Btslice>
                         </ModalBox>
                     </ModalBackground></> : null
             }
         </div >
     )
 }
-
-
 export default Modal;

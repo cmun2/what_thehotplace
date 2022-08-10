@@ -4,7 +4,6 @@ import Detail from "../pages/Detail";
 import Edit from "../pages/Edit";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const Router = () => {
@@ -16,7 +15,7 @@ const Router = () => {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/detail" element={<Detail />}></Route>
         <Route path="/detail/:id" element={<Detail />}></Route>
-        <Route path="/edit" element={<Edit />}></Route>
+        <Route path="/edit/:id" element={<Edit />}></Route>
       </Routes>
     </BrowserRouter>
   );

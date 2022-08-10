@@ -1,43 +1,43 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { useState } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { getListThunk } from "../redux/modules/users";
+import { getDetail } from "../redux/modules/commentSlice";
+import { Link } from 'react-router-dom';
 
 const Tedo = styled.div`
-    border: 1px solid hotpink;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 35px;
 `
 
 
 const Card = styled.div`
-   border: 1px solid black;
    display: flex;
    flex-direction: column;
-   margin: 15px 80px 15px 15px;
-   padding: 10px;
-   border-radius: 10px;
+   margin: 50px 50px 30px;
+   border-radius: 15px;
+   border: 2px solid hotpink;
+   overflow: hidden;
 `
 
 const CardImag = styled.div`
-   background-color: green;
+   background-color: hotpink;
    width: 450px;
    height: 200px;
 `
 
 const CardBody = styled.div`
-    background-color: yellow;
-    width: 450px;
+    width: 450px;   
    height: 150px;
    padding: 10px;
    display: flex;
    flex-direction: column;
 `
 
-const Cen = styled.div`
+const Titlecen = styled.div`
     display: flex;
     justify-content: center;
 `
@@ -45,45 +45,43 @@ const Cen = styled.div`
 
 function List() {
 
+
+    const dispatch = useDispatch();
+    const list = useSelector((state) => state.users.list)
+
+    // console.log(list)
+
+
+    useEffect(() => {
+        dispatch(getListThunk());
+    }, []);
+    const Detail = useSelector((state) => state.counter.detail);
+
     return (
-    
-        <Tedo>
-            <Card>
-                <CardImag>
-                </CardImag>
-                <CardBody>
-                    <Cen><h3>강남 카페</h3></Cen>
-                    <p>너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요</p>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardImag>
-                </CardImag>
-                <CardBody>
-                    <Cen><h3>강남 카페</h3></Cen>
-                    <p>너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요</p>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardImag>
-                </CardImag>
-                <CardBody>
-                    <Cen><h3>강남 카페</h3></Cen>
-                    <p>너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요</p>
-                </CardBody>
-            </Card>
-            <Card>
-                <CardImag>
-                </CardImag>
-                <CardBody>
-                    <Cen><h3>강남 카페</h3></Cen>
-                    <p>너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요 너무너무 이뻐요  너무너무 이뻐요</p>
-                </CardBody>
-            </Card>
-            
-        </Tedo>
+        <>
+            <Tedo>
+                {
+                    list.map(function (a) {
+                        return (
+                            
+                                <Card key={a.id}>
+                                    <CardImag><img style={{ width: "450px", height: "200px" }} src={a.imgFile} /></CardImag>
+                                    <CardBody>
+                                        <Titlecen><Link to={`/detail/${a.id}`}><h3 to={`/edit/${Detail.id}`} onClick={() => dispatch(getDetail(a))}>{a.title}</h3></Link></Titlecen>
+                                        <p>{a.body}</p>
+                                    </CardBody>
+                                </Card>
+                        )
+                    })
+                }
+
+            </Tedo>
+
+        </>
     )
 }
+
+
 
 export default List;
 
