@@ -1,7 +1,21 @@
 import Comments from "../components/Comments";
 import styled from "styled-components";
+import { useState, useRef } from "react";
+import axios from "axios";
+
 
 const Detail = () => {
+  // 1. const [data, setData] = useState([]);
+
+  // 2. const dataId = useRef(0);
+  
+  const onDelete = (targetId) => {
+    console.log(`${targetId}가 삭제되었습니다.`);
+    axios.delete(`http://localhost:3001/${targetId}`);
+  //3. const newHotPlaceList = data.filter((it) => it.id !== targetId);
+  //4. setData(newHotPlaceList); //setData를 사용하면서 state가 변경되어 삭제가 반영됨.
+  }
+
   return (
     <>
       <DetailBody>
@@ -13,7 +27,18 @@ const Detail = () => {
           <button>게시글 수정</button>
         </div>
       </DetailBody>
-      <DeliteButton>게시글 삭제</DeliteButton>
+      <DeliteButton>
+        <button 
+          type="button"
+          // onClick={()=>{
+          //     if (window.confirm(`${id}의 게시글을 정말 삭제하시겠습니까?`)) {
+          //       onDelete(id); //id는 onCreate에서 불러와야함
+          //     } //"예"를 누르면 삭제되는 기능 
+          //   }}
+            >
+            게시글 삭제
+            </button>
+        </DeliteButton>
       <Comments />
     </>
   );
@@ -69,7 +94,7 @@ const Img = styled.div`
   text-align: center;
   padding: 10px;
 `;
-const DeliteButton = styled.button`
+const DeliteButton = styled.div`
   /* width: 4%; */
   margin-left: 75%;
   margin-top: 10px;
