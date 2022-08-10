@@ -10,7 +10,7 @@ const initialState = {
   ],
   detail:  
     {
-      id: uuidv4(),
+      id: 1,
       title: "hello world!",
       body: "미쳤어"
     }

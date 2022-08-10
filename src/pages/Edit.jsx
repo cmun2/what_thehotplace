@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from 'react-router-dom';
 import { useSelector } from "react-redux";
@@ -10,10 +10,20 @@ const Edit = () => {
   const [editDetail, setEditDetail] = useState({
     title: Detail.title,
   });
+  
+  const fetchDetail = async (id) => {
+    const { data } = await axios.get(`http://localhost:3001/list/${id}`);
+    setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
+  };
+
+  useEffect(() => {
+		// effect 구문에 생성한 함수를 넣어 실행합니다.
+    fetchDetail(Detail.id);
+  }, []);
 
   // 수정버튼 이벤트 핸들러 추가 👇
   const onClickEditButtonHandler = (id, edit) => {
-    axios.patch(`http://localhost:3001/detail/${id}`, edit);
+    axios.patch(`http://localhost:3001/list/${id}`, edit);
   };
 
   return (
@@ -28,12 +38,12 @@ const Edit = () => {
                 title: ev.target.value,
               });
             }}></TitleInput> </Title>
-            <Image value={Detail.img}>IMAGE<ImageInput></ImageInput> </Image>
-            <Content>REVIEW<ContentInput value={Detail.body}></ContentInput> </Content>
+            <Image value={editDetail.img}>IMAGE<img style={{ width: "450px", height: "200px" }} src={Detail.imgFile} /></Image>
+            <Content>REVIEW<ContentInput value={editDetail.body}></ContentInput> </Content>
           </ContentBox>
           <Btn>
-            <Link to={`/detail/${Detail.id}`}><CompleteBtn> 취소 </CompleteBtn></Link>
-            <Link to={`/detail/${Detail.id}`}><CancelBtn onClick={() => onClickEditButtonHandler(Detail.id, editDetail)}> 수정완료 </CancelBtn></Link>
+            <Link to={`/detail/${editDetail.id}`}><CompleteBtn> 취소 </CompleteBtn></Link>
+            <Link to={`/detail/${editDetail.id}`}><CancelBtn onClick={() => onClickEditButtonHandler(Detail.id, editDetail)}> 수정완료 </CancelBtn></Link>
           </Btn>
         </Box>
       </Base>

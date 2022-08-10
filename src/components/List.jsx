@@ -2,15 +2,15 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import { getListThunk } from "../redux/modules/users";
-
+import { getDetail } from "../redux/modules/commentSlice";
+import { Link } from 'react-router-dom';
 
 const Tedo = styled.div`
-    border: 1px solid hotpink;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 35px;
 `
 
 
@@ -19,7 +19,7 @@ const Card = styled.div`
    flex-direction: column;
    margin: 50px 50px 30px;
    border-radius: 15px;
-   border: 2px solid black;
+   border: 2px solid hotpink;
    overflow: hidden;
 `
 
@@ -37,7 +37,7 @@ const CardBody = styled.div`
    flex-direction: column;
 `
 
-const Cen = styled.div`
+const Titlecen = styled.div`
     display: flex;
     justify-content: center;
 `
@@ -54,21 +54,23 @@ function List() {
 
     useEffect(() => {
         dispatch(getListThunk());
-    },[]);
+    }, []);
+    const Detail = useSelector((state) => state.counter.detail);
 
     return (
         <>
             <Tedo>
                 {
-                    list.map(function (a, i) {
+                    list.map(function (a) {
                         return (
-                            <Card key={a.id}>
-                                <CardImag>{a.img}</CardImag>
-                                <CardBody>
-                                    <Cen><h3>{a.title}</h3></Cen>
-                                    <p>{a.coments}</p>
-                                </CardBody>
-                            </Card>
+                            
+                                <Card key={a.id}>
+                                    <CardImag><img style={{ width: "450px", height: "200px" }} src={a.imgFile} /></CardImag>
+                                    <CardBody>
+                                        <Titlecen><Link to={`/detail/${a.id}`}><h3 to={`/edit/${Detail.id}`} onClick={() => dispatch(getDetail(a))}>{a.title}</h3></Link></Titlecen>
+                                        <p>{a.body}</p>
+                                    </CardBody>
+                                </Card>
                         )
                     })
                 }
