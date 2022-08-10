@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-
 const initialState = {
   comment: [
     {
       id: uuidv4(),
-      ment: "하하하",
+      ment: "",
     },
   ],
   isLoading: false,
@@ -15,13 +14,15 @@ const initialState = {
 
 export const __getComments = createAsyncThunk(
   "comments/getComments",
-  async (payload, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
-      const data = await axios.get("http://localhost:3001/comment");
+      const data = await axios.get(
+        `http://localhost:3001/comment?postId=${id}`
+      );
       //console.log(data);
       return thunkAPI.fulfillWithValue(data.data);
     } catch (err) {
-      console.log(err);
+      return thunkAPI.rejectWithValue(err);
     }
   }
 );
@@ -31,7 +32,7 @@ export const commentsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [__getComments.pending]: (state, action) => {
+    [__getComments.pending]: (state) => {
       state.isLoading = true;
     },
     [__getComments.fulfilled]: (state, action) => {
