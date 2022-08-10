@@ -65,6 +65,9 @@ const DetailBody = styled.div`
   border: 1px solid none;
   box-shadow: 6px 6px 6px 6px #0000ff19;
   color: #ff0068;
+  img {
+    max-width: 95%;
+  }
   h2 {
       margin: 5px auto 10px auto;
       width: 90%;
@@ -95,13 +98,7 @@ const DetailBody = styled.div`
 `
 
 //이미지 임시
-const Img = styled.div`
-  height: 40%;
-  width: 50%;
-  background-color: purple;
-  text-align: center;
-  padding: 10px;
-`
+
 const DeliteButton = styled.button`
   width: 8%;
   margin-left: 63%;

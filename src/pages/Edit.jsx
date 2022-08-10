@@ -48,7 +48,7 @@ const Edit = () => {
               IMAGE
               <img
                 style={{ width: "450px", height: "200px" }}
-                src={Detail.imgFile}
+                src={editDetail.imgFile}
               />
             </Image>
             <Content>
@@ -75,6 +75,7 @@ const Edit = () => {
 };
 
 export default Edit;
+
 const BarTxt1 = styled.h1`
   color: #ff0068;
   margin: 8px;
@@ -97,6 +98,9 @@ const ContentBox = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: left;
+  img {
+    max-width: 100%;
+  }
 `;
 const Base = styled.div`
   background-color: black;
