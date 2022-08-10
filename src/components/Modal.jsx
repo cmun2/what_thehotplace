@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { useDispatch } from "react-redux/es/exports";
 // import { addNumber } from "../redux/modules/users";
@@ -43,7 +43,6 @@ const ModalBox = styled.div`
     align-items: center;
 `
 
-
 const Logo = styled.div`
     width: 100%;
     background-color: black;
@@ -54,7 +53,6 @@ const Logo = styled.div`
     align-items : center;
 `
 
-
 const InputOne = styled.input`
     margin-top: 10px;
 `
@@ -63,9 +61,10 @@ const InputTwo = styled.input`
     border-radius: 6px;
     height: 35px;
     padding-left: 10px;
-    width: 300px;
+    width: 100%;
     border: 1px solid hotpink;
     margin-top: 10px;
+    max-width: 300px;
 `
 const InputThr = styled.input`
     border-radius: 6px;
@@ -87,55 +86,33 @@ const ModalButton = styled.button`
     margin: 10px;
 `
 
-const Box = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-
-const Name = styled.label`
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-    margin-top: 20px;
-    
-`
-
 const Btslice = styled.div`
     text-align: center;
     margin-top: 30px;
 `
-const Photo = styled.button`
-    border: 1px solid black;
-    margin-top: 10px;
-    margin-left: 220px;
-    color: hotpink;
-    background-color: black;
-    width: 70px;
-    height: 25px;
-    border-radius: 8px;
-`
-
 
 function Modal() {
-
+    //모달창 띄우기
     let [modal, setModal] = useState(false)
-
+    //이미지 미리보기
     let [imgesrc, setImgesrc] = useState('');
 
+    //바디 옵저버 달기
+    const bodyInput= useRef();
 
+    //리덕스 데이터 가져오기
     const dispatch = useDispatch();
     const qwe = useSelector((state) => state.users)
-
     console.log(qwe)
 
+    //입력받을 인풋값 저장
     const [inputs, setInputs] = useState({
         title: '',
-        coments: '',
+        body: '',
     });
 
-    const { title, coments } = inputs; // 비구조화 할당을 통해 값 추출
-
+    // 비구조화 할당을 통해 값 추출
+    const { title, body} = inputs; 
     const onChange = (e) => {
         const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
         setInputs({
@@ -144,16 +121,22 @@ function Modal() {
         });
     };
 
+    //입력받은 인풋값들 POST요청으로 보내기
     const onSubmitHandler = async (inputs) => {
-        if (title, coments === "") return;
+        if (title=== "") return;
+        if (body=== "") return;
+        if(bodyInput.current.value.length < 10) {
+            alert('10글자 이상 입력해주세요 !!');
+            return
+        }
         await axios.post("http://localhost:3001/list", inputs);
-        dispatch(getListThunk());
-        setInputs('');
-        setImgesrc('');
+        dispatch(getListThunk());   //작성완료시 바로 붙기
+        setInputs('');  //작성완료시 빈칸으로 되기
+        setImgesrc(''); //작성완료시 빈칸으로 되기
         console.log(inputs)
     };
 
-
+    //이미지 문자화 및 다시 이미지화 작업
     const encodeFileToBase64 = async (a) => {
         const reader = new FileReader();
         reader.readAsDataURL(a)
@@ -170,6 +153,14 @@ function Modal() {
     };
 
 
+    const onReset = ()=> {
+        setInputs({
+            ...inputs,
+            title:'',
+            body:'',
+        });
+    };
+
     return (
         <div>
             <Open onClick={() => { setModal(true) }}>모달창 열기</Open>
@@ -178,7 +169,7 @@ function Modal() {
                     <ModalBackground>
                         <ModalBox>
                             <Logo>로고임</Logo>
-                                    <img style={{width:"45%", height:"30%", marginTop:"5px", border:"10px solid hotpink;"}} src={imgesrc}/>
+                                    <img style={{width:"45%", height:"30%", marginTop:"5px", backgroundColor:"hotpink", borderRadius:"12px", border:"2px solid black"}} src={imgesrc}/>
                                 <InputOne  name="image" type="file" accept="image/*" onChange={(e) => {
                                     const { value } = encodeFileToBase64(e.target.files[0])
                                     setInputs({
@@ -186,12 +177,12 @@ function Modal() {
                                         imgFile: value
                                     })
                                 }} />
-                                
+
                                 <InputTwo name="title" placeholder="핫플레이스 이름" onChange={onChange} value={title} />
-                                <InputThr name="coments" placeholder="리뷰를 10글자 이상 작성해주세요!!" onChange={onChange} value={coments} />
+                                <InputThr name="body" placeholder="리뷰를 10글자 이상 작성해주세요!!" onChange={onChange} value={body} ref={bodyInput}/>
                                 <Btslice>
-                                    <ModalButton onClick={() => { setModal(!modal) }}>취소</ModalButton>
-                                <ModalButton onClick={() => { onSubmitHandler(inputs); alert("작성 완료!!"); setModal(!modal); }}>작성하기</ModalButton>
+                                    <ModalButton onClick={() => { setModal(!modal); onReset()}}>취소</ModalButton>
+                                <ModalButton onClick={() => { onSubmitHandler(inputs);  setModal(!modal); }}>작성하기</ModalButton>
                                 </Btslice>
                         </ModalBox>
                     </ModalBackground></> : null

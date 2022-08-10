@@ -65,7 +65,7 @@ function List() {
                                 <CardImag><img style={{width:"450px", height:"200px"}} src={a.imgFile}/></CardImag>
                                 <CardBody>
                                     <Titlecen><h3>{a.title}</h3></Titlecen>
-                                    <p>{a.coments}</p>
+                                    <p>{a.body}</p>
                                 </CardBody>
                             </Card>
                         )
