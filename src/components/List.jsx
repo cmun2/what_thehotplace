@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { getListThunk } from "../redux/modules/users";
-import { getDetail } from "../redux/modules/commentSlice";
 import { Link } from 'react-router-dom';
 
 const Tedo = styled.div`
@@ -55,7 +54,7 @@ function List() {
     useEffect(() => {
         dispatch(getListThunk());
     }, []);
-    const Detail = useSelector((state) => state.counter.detail);
+    const Detail = useSelector((state) => state.getdetail.detail);
 
     return (
         <>
@@ -67,7 +66,7 @@ function List() {
                                 <Card key={a.id}>
                                     <CardImag><img style={{ width: "450px", height: "200px" }} src={a.imgFile} /></CardImag>
                                     <CardBody>
-                                        <Titlecen><Link to={`/detail/${a.id}`}><h3 to={`/edit/${Detail.id}`} onClick={() => dispatch(getDetail(a))}>{a.title}</h3></Link></Titlecen>
+                                        <Titlecen><Link to={`/detail/${a.id}`}><h3 to={`/edit/${Detail.id}`}>{a.title}</h3></Link></Titlecen>
                                         <p>{a.body}</p>
                                     </CardBody>
                                 </Card>

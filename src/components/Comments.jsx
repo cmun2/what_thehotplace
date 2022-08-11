@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { useState, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
-import commentSlice, { addComment } from "../redux/modules/commentSlice";
 import axios from "axios";
 import Pagination from "../components/Pagination";
 import { __getComments } from "../redux/modules/commentsSlice";

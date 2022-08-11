@@ -3,14 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
 
   detail: {
-    id: 1,
-    title: "hello world!",
-    body: "미쳤어",
+   
   },
 };
 
-const commentSlice = createSlice({
-  name: "counter",
+const detailSlice = createSlice({
+  name: "getdetail",
   initialState,
   reducers: {
     getDetail: (state, action) => {
@@ -18,9 +16,9 @@ const commentSlice = createSlice({
         ...state,
         detail: action.payload,
       };
-    },
+    }
   },
 });
 
-export const { getDetail } = commentSlice.actions;
-export default commentSlice.reducer;
+export const { getDetail } = detailSlice.actions;
+export default detailSlice.reducer;

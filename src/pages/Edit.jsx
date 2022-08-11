@@ -7,7 +7,7 @@ import axios from "axios";
 const Edit = () => {
   const navigate = useNavigate();
 
-  const Detail = useSelector((state) => state.counter.detail);
+  const Detail = useSelector((state) => state.getdetail.detail);
 
   const [editDetail, setEditDetail] = useState({
     title: Detail.title,
