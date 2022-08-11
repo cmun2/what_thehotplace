@@ -5,6 +5,25 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Edit = () => {
+  //이미지 문자화 및 다시 이미지화 작업
+  const encodeFileToBase64 = async (a) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(a);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setImgesrc(reader.result);
+        setEditDetail({
+          ...editDetail,
+          imgFile: reader.result,
+        });
+        resolve();
+      };
+    });
+  };
+
+  //이미지 미리보기
+  let [imgesrc, setImgesrc] = useState("");
+
   const navigate = useNavigate();
 
   const Detail = useSelector((state) => state.counter.detail);
@@ -12,6 +31,7 @@ const Edit = () => {
   const [editDetail, setEditDetail] = useState({
     title: Detail.title,
     body: Detail.body,
+    imgFile: "",
   });
 
   const params = useParams();
@@ -32,13 +52,14 @@ const Edit = () => {
   }, []);
 
   // 수정버튼 이벤트 핸들러 추가 👇
-  const onClickEditButtonHandler = (edit) => {
+  const onClickEditButtonHandler = async (edit) => {
     if (editDetail.title.length < 10) {
       alert("제목을 10글자 이상 작성해 주세요!");
       return;
     } else {
-      axios.patch(`http://localhost:3001/list/${editDetail.id}`, edit);
+      await axios.patch(`http://localhost:3001/list/${editDetail.id}`, edit);
       navigate(`/detail/${editDetail.id}`);
+      fetchDetail();
     }
   };
 
@@ -61,11 +82,23 @@ const Edit = () => {
                 }}
               ></TitleInput>{" "}
             </Title>
-            <Image value={Detail.img}>
+            <Image>
               IMAGE
               <img
                 style={{ width: "450px", height: "200px" }}
                 src={editDetail.imgFile}
+              />
+              <input
+                name="image"
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const { value } = encodeFileToBase64(e.target.files[0]);
+                  setEditDetail({
+                    ...editDetail,
+                    imgFile: value,
+                  });
+                }}
               />
             </Image>
             <Content>
@@ -159,16 +192,6 @@ const TitleInput = styled.input`
 const Image = styled.div`
   font-size: medium;
   color: #ff0068;
-`;
-const ImageInput = styled.input`
-  border: 1px solid rgb(160, 160, 160);
-  width: 400px;
-  height: 40px;
-  border-radius: 4px;
-  padding-left: 10px;
-  margin-bottom: 25px;
-  margin-top: 4px;
-  color: white;
 `;
 const Content = styled.div`
   font-size: medium;

@@ -176,7 +176,7 @@ const Comments = () => {
           <span>
             {isEdit ? (
               <>
-                <button onClick={handleQuitEdit}>수정 취소</button>
+                {/* <button onClick={handleQuitEdit}>수정 취소</button> */}
                 <button onClick={handleEdit}>수정 완료</button>
               </>
             ) : (

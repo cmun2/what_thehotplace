@@ -104,7 +104,6 @@ function Modal() {
   //리덕스 데이터 가져오기
   const dispatch = useDispatch();
   const qwe = useSelector((state) => state.users);
-  console.log(qwe);
 
   //입력받을 인풋값 저장
   const [inputs, setInputs] = useState({
@@ -145,7 +144,6 @@ function Modal() {
     setInputs(""); //작성완료시 빈칸으로 되기
     setImgesrc(""); //작성완료시 빈칸으로 되기
     alert("작성완료 !!"); //post 완료시 알람
-    console.log(inputs);
   };
 
   //이미지 문자화 및 다시 이미지화 작업
