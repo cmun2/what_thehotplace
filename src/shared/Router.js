@@ -6,6 +6,8 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import Ex from "../pages/ex";
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -16,6 +18,8 @@ const Router = () => {
         <Route path="/detail" element={<Detail />}></Route>
         <Route path="/detail/:id" element={<Detail />}></Route>
         <Route path="/edit/:id" element={<Edit />}></Route>
+
+        <Route path="/ex" element={<Ex />}></Route>
       </Routes>
     </BrowserRouter>
   );

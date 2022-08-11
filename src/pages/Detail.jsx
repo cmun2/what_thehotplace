@@ -6,43 +6,28 @@ import { Link, useParams } from 'react-router-dom';
 import Comments from "../components/Comments";
 import Header from "../components/Heaedr";
 import { useSelector, useDispatch } from "react-redux";
-
-import axios from "axios";
+import { __getDetail } from "../redux/modules/detailSlice";
 
 const Detail = () => {
   const dispatch = useDispatch();
-  const Detail  = useSelector((state) => state.getdetail.detail);
-
-  const [getDetail, setEditDetail] = useState({
-    title: Detail.title,
-  });
-  
-  const params = useParams()
-  const [DetailId, setDetailId] = useState({
-    id: params.id,
-  });
-  
-  const fetchDetail = async () => {
-    const { data } = await axios.get(`http://localhost:3001/list/${DetailId.id}`);
-    setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
-  };
+  const { detail }= useSelector((state) => state.getdetail);
 
   useEffect(() => {
-		// effect 구문에 생성한 함수를 넣어 실행합니다.
-    fetchDetail(Detail.id);
-  }, []);
+    dispatch(__getDetail(params.id));
+  }, [dispatch]);
 
-
+  const params = useParams()
+ 
   return (
     <>
     <Header/>
       <DetailBody>
-        <h2>{getDetail.title}</h2>
-        <img style={{ width: "450px", height: "200px" }} src={getDetail.imgFile} />
-        <p>{getDetail.body}</p>
+        <h2>{detail.title}</h2>
+        <img style={{ width: "450px", height: "200px" }} src={detail.imgFile}/>
+        <p>{detail.body}</p>
         <div>
           <Link to="/"><button>목록으로</button></Link>
-          <Link to={`/edit/${getDetail.id}`}><button>수정하기</button></Link>
+          <Link to={`/edit/`}><button>수정하기</button></Link>
         </div>
       </DetailBody>
       <DeliteButton>게시글 삭제</DeliteButton>

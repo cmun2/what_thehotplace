@@ -1,38 +1,24 @@
-// src/Detail.jsx
+// src/App.jsx
 
-import React, {useCallback, useState} from "react";
-import styled from "styled-components";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { __getDetail } from "../redux/modules/detailSlice";
+
 const Ex = () => {
+  const dispatch = useDispatch();
+  const { detail }= useSelector((state) => state.getdetail);
+  console.log(detail)
 
-    const [imgUrl, setImageUrl] = useState();
 
-    const onImgChange = (e) => { 
-      setImageUrl(e.target.files[0]);
-    }
+  useEffect(() => {
+    dispatch(__getDetail(1));
+  }, [dispatch]);
 
-    const [value, setValue] = useState("");
-
-    const onChange=useCallback(e => {
-      setValue(e.targer.value);
-    }, []);
-
-    return(
-        <div className="fileContainer">
-          <button>+</button>
- 
-          <input 
-            type='file'
-            id='image'
-            accept='image/*'
-            name='image'
-            onChange={onImgChange} >
-          </input>
-
-          <form className="TodoInsert">
-          <input placeholder="입력테스트" value={value} onChange={onChange}></input>
-          </form>
-        </div>
-    )
+  return (
+    <div>
+      
+    </div>
+  );
 };
 
 export default Ex;

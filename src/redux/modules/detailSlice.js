@@ -1,24 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = {
+const initialState = {};
 
-  detail: {
-   
-  },
-};
+export const __getDetail = createAsyncThunk(
+  "getdetail/getDetail",
+  async (payload, thunkAPI) => {
+      const data = await axios.get(`http://localhost:3001/list/${payload}`);
+      return thunkAPI.fulfillWithValue(data.data);
+  }
+);
 
-const detailSlice = createSlice({
+export const detailSlice = createSlice({
   name: "getdetail",
   initialState,
-  reducers: {
-    getDetail: (state, action) => {
-      return {
-        ...state,
-        detail: action.payload,
-      };
-    }
+  reducers: {},
+  extraReducers: {
+    [__getDetail.fulfilled]: (state, action) => {
+      state.detail = action.payload; 
+    },
   },
 });
 
-export const { getDetail } = detailSlice.actions;
+export const {} = detailSlice.actions;
 export default detailSlice.reducer;
