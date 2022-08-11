@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Edit = () => {
+  const navigate = useNavigate();
+
   const Detail = useSelector((state) => state.counter.detail);
 
   const [editDetail, setEditDetail] = useState({
     title: Detail.title,
+    body: Detail.body,
   });
 
-  const fetchDetail = async (id) => {
-    const { data } = await axios.get(`http://localhost:3001/list/${id}`);
+  const params = useParams();
+  const [DetailId, setDetailId] = useState({
+    id: params.id,
+  });
+
+  const fetchDetail = async () => {
+    const { data } = await axios.get(
+      `http://localhost:3001/list/${DetailId.id}`
+    );
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
   };
 
@@ -22,8 +32,14 @@ const Edit = () => {
   }, []);
 
   // 수정버튼 이벤트 핸들러 추가 👇
-  const onClickEditButtonHandler = (id, edit) => {
-    axios.patch(`http://localhost:3001/list/${id}`, edit);
+  const onClickEditButtonHandler = (edit) => {
+    if (editDetail.title.length < 10) {
+      alert("제목을 10글자 이상 작성해 주세요!");
+      return;
+    } else {
+      axios.patch(`http://localhost:3001/list/${editDetail.id}`, edit);
+      navigate(`/detail/${editDetail.id}`);
+    }
   };
 
   return (
@@ -39,6 +55,7 @@ const Edit = () => {
                 value={editDetail.title}
                 onChange={(ev) => {
                   setEditDetail({
+                    ...editDetail,
                     title: ev.target.value,
                   });
                 }}
@@ -48,25 +65,30 @@ const Edit = () => {
               IMAGE
               <img
                 style={{ width: "450px", height: "200px" }}
-                src={Detail.imgFile}
+                src={editDetail.imgFile}
               />
             </Image>
             <Content>
-              REVIEW<ContentInput value={Detail.body}></ContentInput>{" "}
+              REVIEW
+              <ContentInput
+                value={editDetail.body}
+                onChange={(ev) => {
+                  setEditDetail({
+                    ...editDetail,
+                    body: ev.target.value,
+                  });
+                }}
+              ></ContentInput>{" "}
             </Content>
           </ContentBox>
           <Btn>
-            <Link to={`/detail/${Detail.id}`}>
+            <Link to={`/detail/${editDetail.id}`}>
               <CompleteBtn> 취소 </CompleteBtn>
             </Link>
-            <Link to={`/detail/${Detail.id}`}>
-              <CancelBtn
-                onClick={() => onClickEditButtonHandler(Detail.id, editDetail)}
-              >
-                {" "}
-                수정완료{" "}
-              </CancelBtn>
-            </Link>
+            <CancelBtn onClick={() => onClickEditButtonHandler(editDetail)}>
+              {" "}
+              수정완료{" "}
+            </CancelBtn>
           </Btn>
         </Box>
       </Base>
@@ -75,6 +97,7 @@ const Edit = () => {
 };
 
 export default Edit;
+
 const BarTxt1 = styled.h1`
   color: #ff0068;
   margin: 8px;
@@ -97,6 +120,9 @@ const ContentBox = styled.div`
   align-items: center;
   flex-direction: column;
   text-align: left;
+  img {
+    max-width: 100%;
+  }
 `;
 const Base = styled.div`
   background-color: black;

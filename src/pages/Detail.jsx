@@ -2,24 +2,42 @@
 
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import Header from "../components/Heaedr";
 import { useSelector, useDispatch } from "react-redux";
 import { getDetail } from "../redux/modules/commentSlice";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Detail = () => {
   const dispatch = useDispatch();
   const Detail = useSelector((state) => state.counter.detail);
+  const navigate = useNavigate();
+
+  // const qwe = useSelector((state) => state.users);
+  // console.log(qwe);
 
   const [getDetail, setEditDetail] = useState({
     title: Detail.title,
   });
 
   const fetchDetail = async (id) => {
-    const { data } = await axios.get(`http://localhost:3001/list/${id}`);
+    const { data } = await axios.get(
+      `http://localhost:3001/list/${DetailId.id}`
+    );
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
+  };
+
+  const params = useParams();
+  const [DetailId, setDetailId] = useState({
+    id: params.id,
+  });
+  const onDelete = async (id) => {
+    //console.log(`${id}가 삭제되었습니다.`);
+    const { data } = await axios.delete(`http://localhost:3001/list/${id}`);
+    setEditDetail(data);
+    navigate("/");
   };
 
   useEffect(() => {
@@ -27,15 +45,7 @@ const Detail = () => {
     fetchDetail(Detail.id);
   }, []);
 
-  // const onDelete = async (id) => {
-  //   //console.log(`${id}가 삭제되었습니다.`);
-  //   await axios.delete(`http://localhost:3001/list/${id}`);
-  // };
-
-  // useEffect(() => {
-  //   onDelete(Detail.id);
-  // }, []);
-
+  //console.log(getDetail);
   return (
     <>
       <Header />
@@ -57,7 +67,9 @@ const Detail = () => {
           </Link>
         </div>
       </DetailBody>
-      <DeliteButton>게시글 삭제</DeliteButton>
+      <DeliteButton onClick={() => onDelete(getDetail.id)}>
+        게시글 삭제
+      </DeliteButton>
       <Comments />
     </>
   );
@@ -81,6 +93,9 @@ const DetailBody = styled.div`
   border: 1px solid none;
   box-shadow: 6px 6px 6px 6px #0000ff19;
   color: #ff0068;
+  img {
+    max-width: 98%;
+  }
   h2 {
     margin: 5px auto 10px auto;
     width: 90%;
