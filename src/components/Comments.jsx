@@ -176,7 +176,7 @@ const Comments = () => {
           <span>
             {isEdit ? (
               <>
-                {/* <button onClick={handleQuitEdit}>수정 취소</button> */}
+                <button onClick={handleQuitEdit}>수정 취소</button>
                 <button onClick={handleEdit}>수정 완료</button>
               </>
             ) : (
@@ -217,6 +217,7 @@ const CommentsBody = styled.div`
   height: 200px;
   margin: auto;
   margin-top: 10px;
+  /* overflow: auto; */
   form {
     margin: 10px;
     width: 100%;
