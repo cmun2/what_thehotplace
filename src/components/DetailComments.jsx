@@ -6,8 +6,6 @@ export const DetailComments = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const comments = useSelector((state) => state.comments.comment);
-  console.log(comments);
-  console.log({ id });
   return null;
 };
 

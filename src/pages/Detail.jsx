@@ -23,7 +23,7 @@ const Detail = () => {
     id: params.id,
   });
   
-  const fetchDetail = async (id) => {
+  const fetchDetail = async () => {
     const { data } = await axios.get(`http://localhost:3001/list/${DetailId.id}`);
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
   };

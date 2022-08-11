@@ -132,7 +132,7 @@ function Modal() {
     //리덕스 데이터 가져오기
     const dispatch = useDispatch();
     const qwe = useSelector((state) => state.users)
-    console.log(qwe)
+  
 
     //입력받을 인풋값 저장
     const [inputs, setInputs] = useState({

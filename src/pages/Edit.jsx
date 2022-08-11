@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
 const Edit = () => {
+  const navigate = useNavigate();
+
   const Detail = useSelector((state) => state.counter.detail);
 
   const [editDetail, setEditDetail] = useState({
@@ -19,7 +21,7 @@ const Edit = () => {
   });
   
 
-  const fetchDetail = async (id) => {
+  const fetchDetail = async () => {
     const { data } = await axios.get(`http://localhost:3001/list/${DetailId.id}`);
     setEditDetail(data); // 서버로부터 fetching한 데이터를 useState의 state로 set 합니다.
   };
@@ -30,9 +32,14 @@ const Edit = () => {
   }, []);
 
   // 수정버튼 이벤트 핸들러 추가 👇
-  const onClickEditButtonHandler = (id, edit) => {
-    axios.patch(`http://localhost:3001/list/${id}`, edit);
-  };
+  const onClickEditButtonHandler = (edit) => {
+    if (editDetail.title.length < 10) {
+      alert("제목을 10글자 이상 작성해 주세요!")
+      return;
+    } else {
+    axios.patch(`http://localhost:3001/list/${editDetail.id}`, edit);
+    navigate(`/detail/${editDetail.id}`);
+  }};
 
   return (
     <>
@@ -76,14 +83,12 @@ const Edit = () => {
             <Link to={`/detail/${Detail.id}`}>
               <CompleteBtn> 취소 </CompleteBtn>
             </Link>
-            <Link to={`/detail/${Detail.id}`}>
               <CancelBtn
-                onClick={() => onClickEditButtonHandler(Detail.id, editDetail)}
+                onClick={() => onClickEditButtonHandler(editDetail)}
               >
                 {" "}
                 수정완료{" "}
               </CancelBtn>
-            </Link>
           </Btn>
         </Box>
       </Base>
