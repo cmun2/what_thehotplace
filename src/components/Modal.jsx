@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux/es/exports";
 import { useDispatch } from "react-redux/es/exports";
 import axios from "axios";
@@ -84,32 +84,9 @@ const ModalButton = styled.button`
   margin: 10px;
 `;
 
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Name = styled.label`
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  margin-top: 20px;
-`;
-
 const Btslice = styled.div`
   text-align: center;
   margin-top: 30px;
-`;
-const Photo = styled.button`
-  border: 1px solid black;
-  margin-top: 10px;
-  margin-left: 220px;
-  color: hotpink;
-  background-color: black;
-  width: 70px;
-  height: 25px;
-  border-radius: 8px;
 `;
 
 function Modal() {
@@ -127,12 +104,13 @@ function Modal() {
   //리덕스 데이터 가져오기
   const dispatch = useDispatch();
   const qwe = useSelector((state) => state.users);
-  //console.log(qwe)
+  console.log(qwe);
 
   //입력받을 인풋값 저장
   const [inputs, setInputs] = useState({
     title: "",
     body: "",
+    imgFile: "",
   });
 
   // 비구조화 할당을 통해 값 추출
@@ -147,12 +125,11 @@ function Modal() {
 
   //입력받은 인풋값들 POST요청으로 보내기
   const onSubmitHandler = async (inputs) => {
-    if (imgesrc === "") {
-      //이미지 확인
-      alert("이미지가 없습니다 !!"); //없으면 알림
-      onReset();
-      return;
-    }
+    // if(imgesrc === "") {  //이미지 확인
+    //     alert("이미지가 없습니다 !!")  //없으면 알림
+    //     onReset();
+    //     return;
+    // }
 
     if (
       bodyInput.current.value.length < 10 ||
@@ -193,6 +170,7 @@ function Modal() {
       title: "",
       body: "",
       imgesrc: "",
+      // imgFile:'',
     });
   };
 
