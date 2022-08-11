@@ -80,7 +80,7 @@ const Edit = () => {
             </Content>
           </ContentBox>
           <Btn>
-            <Link to={`/detail/${Detail.id}`}>
+            <Link to={`/detail/${editDetail.id}`}>
               <CompleteBtn> 취소 </CompleteBtn>
             </Link>
               <CancelBtn
