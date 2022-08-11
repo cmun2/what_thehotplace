@@ -8,10 +8,20 @@ import Header from "../components/Heaedr";
 import { useSelector, useDispatch } from "react-redux";
 import { getDetail } from "../redux/modules/commentSlice";
 import axios from "axios";
+import { __deleteComment } from "../redux/modules/mentdelete"
 
 const Detail = () => {
   const dispatch = useDispatch();
   const Detail = useSelector((state) => state.counter.detail);
+  const comment = useSelector((state)=> state.comments.comment);
+  const comment_id = comment.map(a=>a.id)
+  
+  // console.log(comment_id.toString());
+console.log(comment_id)
+
+  const onDelete = (id) => {
+    dispatch(__deleteComment(id));
+  };
 
   const [getDetail, setEditDetail] = useState({
     title: Detail.title,
@@ -26,7 +36,6 @@ const Detail = () => {
     // effect 구문에 생성한 함수를 넣어 실행합니다.
     fetchDetail(Detail.id);
   }, []);
-
   // const onDelete = async (id) => {
   //   //console.log(`${id}가 삭제되었습니다.`);
   //   await axios.delete(`http://localhost:3001/list/${id}`);
@@ -57,7 +66,7 @@ const Detail = () => {
           </Link>
         </div>
       </DetailBody>
-      <DeliteButton>게시글 삭제</DeliteButton>
+      <DeliteButton onClick={()=>onDelete(comment_id.toString())}>게시글 삭제</DeliteButton>
       <Comments />
     </>
   );
